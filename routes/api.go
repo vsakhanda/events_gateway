@@ -13,13 +13,15 @@ func InitRoutes() *gin.Engine {
 	r := gin.Default()
 
 	//r.LoadHTMLGlob("front/templates/*")
-	r.Static("/static", "./front/static")
+	r.Static("/static", "./static")
 
 	r.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.html", gin.H{
-			"version": fmt.Sprintf("%v", time.Now().Unix()),
-			"title":   "Title of site",
-		})
+
+		c.File("./static/index.html")
+		//c.HTML(http.StatusOK, "index.html", gin.H{
+		//	"version": fmt.Sprintf("%v", time.Now().Unix()),
+		//	"title":   "Title of site",
+		//})
 	})
 
 	r.GET("/eventsdb", func(c *gin.Context) {
@@ -48,7 +50,7 @@ func InitRoutes() *gin.Engine {
 		v1.GET("events/events", func(c *gin.Context) {
 			c.String(http.StatusOK, fmt.Sprintf("In progress! API will give all events %v", time.Now().Unix()))
 		})
-		v1.GET("events/eventsdb", func(c *gin.Context) {
+		v1.GET("events/register", func(c *gin.Context) {
 			c.IndentedJSON(http.StatusOK, db.Events)
 		})
 		// Get event by id

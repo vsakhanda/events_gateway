@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Мій сайт</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<header>
+    <nav>
+        <ul>
+            <li><a href="#login">Авторизація</a></li>
+            <li><a href="#events">Події</a></li>
+            <li><a href="#data">Дані</a></li>
+        </ul>
+    </nav>
+</header>
+
+<main>
+    <section id="login">
+        <h2>Авторизація</h2>
+        <div class="login-container">
+            <form id="loginForm">
+                <label for="username">Логін:</label>
+                <input type="text" id="username" name="username" required>
+
+                <label for="password">Пароль:</label>
+                <input type="password" id="password" name="password" required>
+
+                <button type="submit">Увійти</button>
+                <button type="button" onclick="register()">Зареєструватися</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="events">
+        <h2>Події</h2>
+        <div class="event-container">
+            <ul>
+                <li><a href="#">Подія 1</a></li>
+                <li><a href="#">Подія 2</a></li>
+                <li><a href="#">Подія 3</a></li>
+            </ul>
+            <button type="button" onclick="registerForEvent()">Зареєструватися на подію</button>
+            <button type="button" onclick="confirmParticipation()">Підтвердити участь</button>
+        </div>
+    </section>
+
+    <section id="data">
+        <h2>Дані</h2>
+        <div class="data-container">
+            <p>Ім'я: Іван Іванов</p>
+            <p>Email: ivan@example.com</p>
+            <button type="button" onclick="updateData()">Змінити дані</button>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; 2024 Мій сайт</p>
+</footer>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        login();
+    });
+
+    function login() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        fetch('/api/v1/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password })
+        }).then(response => response.json())
+            .then(data => {
+                console.log(data);
+            }).catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    function register() {
+        // Запит до API для реєстрації
+    }
+
+    function registerForEvent() {
+        fetch('/api/v1/events/register', {
+            method: 'POST'
+        }).then(response => response.json())
+            .then(data => {
+                console.log(data);
+            });
+    }
+
+    function confirmParticipation() {
+        fetch('/api/v1/events/confirm', {
+            method: 'POST'
+        }).then(response => response.json())
+            .then(data => {
+                console.log(data);
+            });
+    }
+
+    function updateData() {
+        // Запит до API для оновлення даних користувача
+    }
+</script>
+</body>
+</html>
